@@ -88,9 +88,10 @@ public class Simpella implements Runnable
    
    public Simpella() 
    {
-	  
+	   //May be needed;
    }
    
+   // Code for listening continously for any incoming connections
    public void server()
    {
 	   	try {
@@ -113,6 +114,7 @@ public class Simpella implements Runnable
    			e.printStackTrace();
    		}
   }
+   // Thread to read incoming connection
    public void run()
    {
 	   
@@ -146,14 +148,10 @@ public class Simpella implements Runnable
 				   ListIterator<PeerData> li = connectionList.listIterator();
 			    	while(li.hasNext()) {
 			    		PeerData p = li.next();
-			    		if(p.p_socket == peer) {
-			    			//p.p_socket.close();
-			    			//peer.close();
+			    		if(p.p_socket == peer)
 			    			li.remove();
-			    		}
-			    	}
-				   //System.out.println("Connection Closed");
-			   }catch(IOException ignored) {
+			       	}
+				}catch(IOException ignored) {
 				   
 			   }
 			   break;
@@ -162,6 +160,7 @@ public class Simpella implements Runnable
 	   }
 		       
    }
+   
    public void disconnectServer()
    {
 	   try {
@@ -171,6 +170,7 @@ public class Simpella implements Runnable
 	   }
    }
    
+   // Maintain incoming connection list
    public  void maintain_list(Socket peer)
    {
 	   try {
@@ -192,7 +192,9 @@ public class Simpella implements Runnable
 	      e.printStackTrace();
 	   }
    }
-    public void disconnect(int connId)
+   
+   // If disconnect remove it from the list
+   public void disconnect(int connId)
     {
     	ListIterator<PeerData> li = connectionList.listIterator();
     	while(li.hasNext()) {
@@ -208,6 +210,8 @@ public class Simpella implements Runnable
     		}
     	}
     }
+   
+    // Send Ping Message
     public void sendPing(byte[] packet)
     {
     	
@@ -230,10 +234,11 @@ public class Simpella implements Runnable
     			e.printStackTrace();
     		}
     			
-    }
+    	}
     	
     }
     
+    // Check byte 17 in the packet to check which type of message arrived 
     public void recvMsgHandler(byte[] packet, Socket peer)
     {
     	if(packet.length > 16) {
@@ -253,6 +258,7 @@ public class Simpella implements Runnable
     		recvOtherMsg(packet,peer);
     	}
     }
+    
     public void recvPingMsg(byte[] packet, Socket peer)
     {
     	int flag = 0;
@@ -324,6 +330,7 @@ public class Simpella implements Runnable
     	}
     	
     }
+    
     public void recvPongMsg(byte[] packet, Socket peer)
     {
     	
@@ -342,7 +349,6 @@ public class Simpella implements Runnable
 		ByteBuffer bufferPort = ByteBuffer.wrap(packet, 23, 2);
 		int port = bufferPort.getShort();
 		pom.msgFromPort = port;
-		//System.out.println("Port: " +port);
 		try {
 		   InetAddress addre = InetAddress.getByAddress(tempArry);
 		   pom.msgFromIp = addre.toString();
@@ -396,6 +402,7 @@ public class Simpella implements Runnable
 			} 
 
     }
+    
     public void recvSearchMsg(byte[] packet, Socket peer)
     {
     	int flag = 0;
@@ -476,6 +483,7 @@ public class Simpella implements Runnable
 			queryHit(packet,peer);
 		}
     }
+    
     public void recvSearchHitMsg(byte[] packet, Socket peer)
     {
     	byte[] guidByte = new byte[16];
@@ -593,6 +601,7 @@ public class Simpella implements Runnable
 		}   
 		
     }
+    
     public void recvOtherMsg(byte[] packet, Socket peer)
     {
     	ByteBuffer str = ByteBuffer.wrap(packet);
@@ -681,7 +690,8 @@ public class Simpella implements Runnable
     	}
     	
     }
-    	
+    
+   // This function is helper for search in the directory
    public void query(String filename)
    {
 	   searchHitMsgListTemp.clear();
@@ -720,6 +730,8 @@ public class Simpella implements Runnable
 		}
 	   System.out.println();
    }
+   
+   // This function is search helper
    public void queryFind(String filename)
    {
 	   searchHitMsgListTemp.clear();
@@ -758,6 +770,8 @@ public class Simpella implements Runnable
 		}
 	   System.out.println();
    }
+   
+   // This function will search in the directory
     public ArrayList<FileDetails> searchString(String message)
     {
     	
@@ -935,10 +949,12 @@ public class Simpella implements Runnable
 	   return bb.array(); 
 	   
    }
+   
    public static List<FileDetails> getList()
    {
 	   return fileDetailsList;
    }
+   
    public void setDirectory(String str)
    {
 	   if(str.equals("-i")) {
@@ -964,6 +980,7 @@ public class Simpella implements Runnable
 	   }
 	   
    }
+   
    public void calculateDirStats()
    {
 		try {
@@ -1106,6 +1123,7 @@ public class Simpella implements Runnable
 	   }
 		System.out.println("length "+searchHitMsgList.size());
    }
+   
    public void monitor()
    {
 	   ListIterator<SearchMessage> it = searchMsgList.listIterator();
@@ -1121,7 +1139,6 @@ public class Simpella implements Runnable
 		   	   System.out.println("Search: '"+str+"'");
 	   }
    }
-   
    
    public static void main(String [] args)
    {

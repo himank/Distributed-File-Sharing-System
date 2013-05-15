@@ -22,3 +22,48 @@ Project folder files:
 3) ServentContaingFile: The client which has the file
 4) ServentRequestingFile: The client requesting file
 5) Tokenizer: Take input from command line and parse it as per the functionality.
+
+Command:
+
+1) java simpella <port1> <port2>  (To run the simplla)
+
+2) info
+info [cdhnqs] - Display list of current connections. The letters are:
+•  c - Simpella network connections 
+•	d - file transfer in progress (downloads only) 
+•	h - number of hosts, number of files they are sharing, and total size of those shared files 
+•	n - Simpella statistics: packets received and sent, number of unique packet IDs in memory (routing tables), total Simpella bytes received and sent so far. 
+•	q - queries received and replies sent 
+•	s - number and total size of shared files on this host
+eg: simpella> info h
+
+3) simpella> share this   (Share current directory)
+   
+   simpella> share -i     (Information about current directory shared)
+   sharing /home/smathew2/Simpella/this
+   
+   simpella> scan         (Scan the current directory)
+   scanning /home/smathew2/Simpella/this for files ...
+   Scanned 2164 files and 3.96663e+07 bytes.
+
+
+4) open <host:port> - open a connection to host at port
+eg: open himank.cse.buffalo.edu:6346
+
+5) update - send PINGs to all neighbors.
+
+6) find <string> - start looking for files containing words in the string.
+   simpella> find himank chaudhary
+   searching Simpella network for `himank chaudhary'
+   press enter to continue
+   20 responses received
+  
+7) clear [file-no]  (clear particluar file no)
+
+8) download <file-num>  (start downloading the file specified.)
+
+9) monitor - display the queries people are searching for
+   simpella> monitor
+   MONITORING SIMPELLA NETWORK:
+   Press enter to continue
+
